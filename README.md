@@ -47,6 +47,10 @@ rosrun opencv_test rotation
 roslaunch atom atom_world.launch
 ```
 
+**检测效果**
+
+![Image text](https://github.com/haicheng12/yolo_rotation/blob/main/img/yolo.png)
+
 **优化项**
 
 1、需要将gazebo仿真的相机的输入转化给yolo使用
