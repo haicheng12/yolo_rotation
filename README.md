@@ -16,6 +16,7 @@ ubuntu 18.04
 ros melodic
 opencv 4.5.5
 安装编译opencv参考：https://blog.csdn.net/dfman1978/article/details/124085664
+用到的模型和视频（注意修改加载的路径）：https://github.com/haicheng12/yolo_model
 ```
 
 **启动步骤**
