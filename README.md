@@ -14,6 +14,8 @@
 ```
 ubuntu 18.04
 ros melodic
+opencv 4.5.5
+安装编译opencv参考：https://blog.csdn.net/dfman1978/article/details/124085664
 ```
 
 **启动步骤**
