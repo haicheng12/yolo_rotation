@@ -1,6 +1,6 @@
 #include "opencv_test/yolo.h"
 #include <iostream>
-#include <opencv2/opencv.hpp>
+// #include <opencv2/opencv.hpp>
 #include <math.h>
 // #include <Windows.h>
 #include <ros/ros.h>
@@ -9,7 +9,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  ros::init(argc, argv, "yolo");
+	ros::init(argc, argv, "yolo");
+	ros::NodeHandle node;
 
 	Yolo test;
 

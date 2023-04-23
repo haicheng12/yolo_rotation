@@ -11,6 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
+  rospy
+  geometry_msgs
+  image_transport
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -218,5 +222,5 @@ target_link_libraries(rotation ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 add_executable(yolo src/yolo/main.cpp
                     src/yolo/videoTrack.cpp)
 target_link_libraries(yolo ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-
+#add_dependencies(yolo opencv_test_generate_messages_cpp)
 
