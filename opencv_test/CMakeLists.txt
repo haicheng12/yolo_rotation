@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(opencv_test)
 
+## Compile as C++11, supported in ROS Kinetic and newer
+# add_compile_options(-std=c++11)
+
 set(CMAKE_PREFIX_PATH /home/ubuntu/opencv-4.5.5/build)
 find_package(OpenCV REQUIRED)
 
@@ -9,16 +12,17 @@ find_package(OpenCV REQUIRED)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rospy
   sensor_msgs
   std_msgs
-  rospy
   geometry_msgs
-  image_transport
+#  image_transport
   message_generation
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -73,7 +77,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   sensor_msgs#   std_msgs
+#   std_msgs
 # )
 
 ################################################
@@ -108,7 +112,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES opencv_test
-#  CATKIN_DEPENDS cv_bridge image_transport opencv2 roscpp sensor_msgs std_msgs
+  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs geometry_msgs image_transport message_generation
 #  DEPENDS system_lib
 )
 
@@ -119,12 +123,12 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
 include_directories(
-  include 
+#  include 
   ${OpenCV_INCLUDE_DIRS}
 )
 

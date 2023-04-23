@@ -46,7 +46,8 @@ void imageCb(const sensor_msgs::ImageConstPtr &msg)
 	cv_bridge::CvImagePtr cv_ptr; // 接受到ros图像的对象
 	try
 	{
-		cv_ptr = cv_bridge::toCvCopy(msg, sensors_msgs::image_encodings::BGR8);
+                //TODO 编译问题没解决，建议直接程序打开摄像头
+		//cv_ptr = cv_bridge::toCvCopy(msg, sensors_msgs::image_encodings::BGR8);
 	}
 	catch (cv_bridge::Exception &e)
 	{
