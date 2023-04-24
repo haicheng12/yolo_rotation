@@ -225,4 +225,9 @@ add_executable(yolo src/yolo/main.cpp
                     src/yolo/videoTrack.cpp)
 target_link_libraries(yolo ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
+add_executable(rotation src/rotation.cpp)
+target_link_libraries(rotation ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+
+
 
