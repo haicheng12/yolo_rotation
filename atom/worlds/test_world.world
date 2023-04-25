@@ -356,7 +356,7 @@
       </link>
     </model>
     <state world_name='default'>
-      <sim_time>84 536000000</sim_time>
+      <sim_time>0</sim_time>
       <real_time>243 312645628</real_time>
       <wall_time>1681026293 683409049</wall_time>
       <iterations>84536</iterations>

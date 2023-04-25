@@ -2,12 +2,15 @@ cmake_minimum_required(VERSION 3.0.2)
 project(opencv_test)
 
 set(CMAKE_PREFIX_PATH /home/ubuntu/opencv-4.5.5/build)
+#set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)
 find_package(OpenCV REQUIRED)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+#  cv_bridge
+  image_transport
   roscpp
   sensor_msgs
   std_msgs

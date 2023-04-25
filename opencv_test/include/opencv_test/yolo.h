@@ -1,21 +1,44 @@
 #pragma once
 #include<iostream>
 #include <opencv2/opencv.hpp>
+#include <ros/ros.h>
+#include "std_msgs/Float64.h"
+#include "sensor_msgs/Image.h"
+#include <image_transport/image_transport.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
-struct Output {
+static const std::string OPENCV_WINDOW = "Image window";
+
+struct Output 
+{
 	int id;             //������id
 	float confidence;   //������Ŷ�
 	cv::Rect box;       //���ο�
 };
 
-class Yolo {
+class Yolo 
+{
+protected:
+        ros::NodeHandle nh_;
+        image_transport::ImageTransport it_;
+	image_transport::Subscriber image_sub_;
+        //image_transport::Publisher angle_pub_;
+        ros::Publisher angle_pub_;
+
+        void imageCb(const sensor_msgs::ImageConstPtr &msg);
+
+        cv::Mat image_;
 public:
-	Yolo() {
-	}
-	~Yolo() {}
+	Yolo();
+	~Yolo();
+
 	bool readModel(cv::dnn::Net& net, std::string& netPath, bool isCuda);
 	void drawPred(cv::Mat& img, std::vector<Output> result, std::vector<cv::Scalar> color);
 	void videoDetect(std::string& videoName);
+       
 	std::string model_path;
 	cv::dnn::Net net;
 
@@ -50,4 +73,5 @@ private:
 	//	"microwave", "oven", "toaster", "sink", "refrigerator", "book", "clock", "vase", "scissors", "teddy bear",
 	//	"hair drier", "toothbrush" };
 	std::vector<std::string> className = { "pipe" };
+
 };

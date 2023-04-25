@@ -5,10 +5,42 @@
 
 #include <deque> //(1)
 
-#include <ros/ros.h>
-#include "std_msgs/Float64.h"
+Yolo::Yolo() : it_(nh_)
+{
+	image_sub_ = it_.subscribe("/rgb/image_raw", 1, &Yolo::imageCb, this);
+	angle_pub_ = nh_.advertise<std_msgs::Float64>("/angle", 10); // 发布速度
 
-ros::Publisher angle_pub_;
+	cv::namedWindow(OPENCV_WINDOW);
+}
+
+Yolo::~Yolo()
+{
+	cv::destroyWindow(OPENCV_WINDOW);
+}
+
+void Yolo::imageCb(const sensor_msgs::ImageConstPtr &msg)
+{
+	ROS_INFO_STREAM("Get Msg");
+	cv_bridge::CvImagePtr cv_ptr;
+	try
+	{
+		// TODO 未就决cv_bridge的使用
+		//  cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+	}
+	catch (cv_bridge::Exception &e)
+	{
+		ROS_ERROR("cv_bridge exception: %s", e.what());
+		return;
+	}
+
+	// Draw an example circle on the video stream
+	if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
+		cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255, 0, 0));
+
+	// Update GUI Window
+	cv::imshow(OPENCV_WINDOW, cv_ptr->image);
+	cv::waitKey(3);
+}
 
 bool Yolo::readModel(cv::dnn::Net &net, std::string &netPath, bool isCuda = false)
 {
@@ -54,11 +86,7 @@ void Yolo::videoDetect(std::string &videoName)
 		std::cout << "video open failure" << std::endl;
 	}
 
-	ros::NodeHandle nh;
-
-	angle_pub_ = nh.advertise<std_msgs::Float64>("/angle", 10); // 发布速度
-
-	ros::Rate loop_rate(10);
+	ros::Rate loop_rate(1);
 	while (ros::ok())
 	// while (true)
 	{
