@@ -68,6 +68,7 @@ int main(int argc, char **argv)
       {
       case ROTATION_ALIGNMENT:
       {
+        ROS_INFO("ROTATION_ALIGNMENT");
         geometry_msgs::Twist vel_msg; // 发布速度
         vel_msg.linear.x = 0.0;
         vel_msg.angular.z = 0.3;
