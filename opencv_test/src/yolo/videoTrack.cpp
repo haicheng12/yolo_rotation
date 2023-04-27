@@ -59,7 +59,7 @@ void Yolo::videoDetect(std::string &videoName)
 		std::cout << "video open failure" << std::endl;
 	}
 
-	ros::Rate loop_rate(1);
+	ros::Rate loop_rate(10);
 	while (ros::ok())
 	// while (true)
 	{
