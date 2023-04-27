@@ -55,7 +55,7 @@ rosrun opencv_test rotation
 
 **检测效果**
 
-![Image text](https://github.com/haicheng12/yolo_rotation/blob/main/img/yolo.png)
+![Image text](https://github.com/haicheng12/yolo_rotation/blob/cv_bridge_test/img/rotation.png)
 
 **优化项**
 
