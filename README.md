@@ -10,6 +10,8 @@
 ————2023年4月26号
 1、cv_bridge调试
 
+————2023年4月27号
+2、逻辑调整根据输出的count发布停止速度
 ```
 
 **系统环境**
@@ -27,17 +29,23 @@ roscore
 rosrun opencv_test yolo
 ```
 
-输出ros的话题/angle
+输出ros的话题/stop_flag
 ```
-rostopic echo /angle
-data: 31.9301363932
 ---
-data: 12.4779459564
+data: True
 ---
-data: 31.8026922791
+data: True
 ---
-data: 12.4779459564
+data: True
+---
+data: False
+---
+data: False
+---
+data: False
+---
 ```
+为true的时候，小车暂停；为false，小车旋转
 
 2、启动旋转控制器
 ```
@@ -45,20 +53,13 @@ rosrun opencv_test rotation
 ```
 旋转控制器输出角速度，小车进行对准
 
-3、启动小车仿真
-```
-roslaunch atom atom_world.launch
-```
-
 **检测效果**
 
 ![Image text](https://github.com/haicheng12/yolo_rotation/blob/main/img/yolo.png)
 
 **优化项**
 
-1、需要将gazebo仿真的相机的输入转化给yolo使用
-2、需要识别gazebo的柱子
-3、实车调试
+1、实车调试
 
 
 

@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  ros::init(argc, argv, "yolo");
+	ros::init(argc, argv, "yolo");
 
 	Yolo test;
 

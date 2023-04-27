@@ -5,41 +5,13 @@
 
 #include <deque> //(1)
 
-Yolo::Yolo() : it_(nh_)
+Yolo::Yolo()
 {
-	image_sub_ = it_.subscribe("/rgb/image_raw", 1, &Yolo::imageCb, this);
-	angle_pub_ = nh_.advertise<std_msgs::Float64>("/angle", 10); // 发布速度
-
-	cv::namedWindow(OPENCV_WINDOW);
+	count_pub_ = nh_.advertise<std_msgs::Bool>("/stop_flag", 1); // 发布
 }
 
 Yolo::~Yolo()
 {
-	cv::destroyWindow(OPENCV_WINDOW);
-}
-
-void Yolo::imageCb(const sensor_msgs::ImageConstPtr &msg)
-{
-	ROS_INFO_STREAM("Get Msg");
-	cv_bridge::CvImagePtr cv_ptr;
-	try
-	{
-		// TODO 未就决cv_bridge的使用
-		//  cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-	}
-	catch (cv_bridge::Exception &e)
-	{
-		ROS_ERROR("cv_bridge exception: %s", e.what());
-		return;
-	}
-
-	// Draw an example circle on the video stream
-	if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
-		cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255, 0, 0));
-
-	// Update GUI Window
-	cv::imshow(OPENCV_WINDOW, cv_ptr->image);
-	cv::waitKey(3);
 }
 
 bool Yolo::readModel(cv::dnn::Net &net, std::string &netPath, bool isCuda = false)
@@ -80,7 +52,8 @@ void Yolo::videoDetect(std::string &videoName)
 	}
 
 	cv::VideoCapture cap;
-	cap.open(videoName);
+	cap.open(videoName); // TODO切换读取摄像头还是读取视频
+	// cap.open(0);
 	if (!cap.isOpened())
 	{
 		std::cout << "video open failure" << std::endl;
@@ -190,21 +163,35 @@ void Yolo::videoDetect(std::string &videoName)
 
 			std::cout << "The Angle is: " << degree_in_degrees << " degree\n";
 
-			std_msgs::Float64 angle_msg;
-			angle_msg.data = degree_in_degrees;
-			angle_pub_.publish(angle_msg);
-
 			if (degree_history.size() > 6)
 			{
 				degree_history.pop_front();
 			} //(5)
 
+			std_msgs::Bool count_msg;
 			bool four_consecutive = true;
+			// count_msg.data = four_consecutive;
+			// count_pub_.publish(count_msg);
 			for (double d : degree_history)
 			{
 				if (d >= 10)
 				{
 					four_consecutive = false;
+					count_msg.data = four_consecutive;
+					count_pub_.publish(count_msg);
+					ros::spinOnce();
+					loop_rate.sleep();
+
+					break;
+				}
+				else
+				{
+					four_consecutive = true;
+					count_msg.data = four_consecutive;
+					count_pub_.publish(count_msg);
+					ros::spinOnce();
+					loop_rate.sleep();
+
 					break;
 				}
 			}
